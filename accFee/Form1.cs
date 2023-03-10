@@ -21,6 +21,7 @@ namespace accFee
             NameInProgLogin();
         }
 
+        //Первоначальные надписи
         public void NameInProgLogin()
         {
             label1.Text = "Логин";

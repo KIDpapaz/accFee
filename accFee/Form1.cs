@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,13 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace accFee
 {
     public partial class Form1 : Form
     {
-        public string Admin;
-        public string Name2;
+        public static string Admin;
+        public static string Name1;
+        public static string Name2;
+
+        private addSlot addSlot;
+
+
         public Form1()
         {
             InitializeComponent();
@@ -31,6 +36,8 @@ namespace accFee
             button5.Text = "Добавить сотрудника";
 
             label2.Text = null;
+
+            textBox1.MaxLength = 6;
 
             button1.Enabled = false;
             button3.Enabled = false;
@@ -73,19 +80,41 @@ namespace accFee
                         button3.Enabled = true;
 
                         label2.Text = "Пользователь" + " " + Name2;
-                        AdminPanel();
+
+                        ///
+                        /// Доступ в админку
+                        ///
+                        int a = Convert.ToInt32(Admin);
+                        if (a == 1)//Можно добавлять замов и пользователей и админов
+                        {
+                            button4.Enabled = true;
+                            button5.Enabled = true;
+                        }
+                        else if (a == 2)//можно добавлять пользователей
+                        {
+                            button4.Enabled = true;
+                            button5.Enabled = true;
+                        }
+                        else if (a == 3)//работяга
+                        {
+                            button4.Enabled = false;
+                            button5.Enabled = false;
+                        }
                     }
                     else
                     {
                         MessageBox.Show("Неправильный логин");
                     }
                 }
+                else if (textBox1.TextLength < 6)
+                {
+                    MessageBox.Show("Меньше 6");
+                }
             }
             catch (Exception)
             {
                 MessageBox.Show("В логине должны присутствовоть только цифры");
             }
-
         }
 
         //Выход
@@ -93,34 +122,30 @@ namespace accFee
         {
             label2.Text = null;
             Admin = null;
+            Name1 = null;
             Name2 = null;
-            
-            button1.Enabled = false;
-            button3.Enabled = false;
-            button2.Enabled = true;
+
             textBox1.Text = null;
             textBox1.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = false;
+
+            button4.Enabled = false;
+            button5.Enabled = false;
+            button1.Enabled = false;
+
+            if (addSlot != null)
+            {
+                addSlot.Close();
+            }
         }
 
-        //Доступ в админ панель
-        public void AdminPanel()
+        
+        //добавление сотрудника
+        private void button5_Click(object sender, EventArgs e)
         {
-            int a = Convert.ToInt32(Admin);
-            if (a == 1)//Можно добавлять замов и пользователей и админов
-            {
-                button4.Enabled = true;
-                button5.Enabled = true;
-            }
-            else if(a == 2)//можно добавлять пользователей
-            {
-                button4.Enabled = true;
-                button5.Enabled = true;
-            }
-            else if(a == 3)//работяга
-            {
-                button4.Enabled = false;
-                button5.Enabled = false;
-            }
+            addSlot = new addSlot();
+            addSlot.ShowDialog();
         }
     }
 }

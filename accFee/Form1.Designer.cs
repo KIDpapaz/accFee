@@ -97,7 +97,8 @@ namespace accFee
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(512, 47);
+            this.button4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button4.Location = new System.Drawing.Point(522, 37);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(73, 60);
             this.button4.TabIndex = 8;
@@ -106,12 +107,14 @@ namespace accFee
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(512, 113);
+            this.button5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button5.Location = new System.Drawing.Point(522, 103);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 60);
             this.button5.TabIndex = 9;
             this.button5.Text = "button5";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 

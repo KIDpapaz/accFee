@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace accFee
 {
@@ -16,6 +17,7 @@ namespace accFee
         public string Admin;
         public string Name1;
         public string Name2;
+        public string pass;
         public addSlot()
         {
             InitializeComponent();
@@ -35,21 +37,29 @@ namespace accFee
             button1.Text = "Добавить";
 
             label7.Text = null;
+            label8.Text = "Пароль";
+
+            textBox5.MaxLength = 6;
 
 
             /// Выесняется какой пользователь для добавления на combobox1
-            if (Convert.ToInt32(Admin) == 1)
             {
-                comboBox1.Items.Add("Главный администратор");
+                if (Convert.ToInt32(Admin) == 1)
+                {
+                    comboBox1.Items.Add("Главный администратор");
+                    comboBox1.Items.Add("Админимстратор");
+                    comboBox1.Items.Add("Рабочий");
+                }
+                else if (Convert.ToInt32(Admin) == 2)
+                {
+                    comboBox1.Items.Add("Рабочий");
+                }
+                else if (Convert.ToInt32(Admin) == 3)
+                {
+                    MessageBox.Show("Ты кто воин?!");
+                }
             }
-            else if (Convert.ToInt32(Admin) == 2)
-            {
-                comboBox1.Items.Add("Рабочий");
-            }
-             else if (Convert.ToInt32(Admin) == 3)
-            {
-                MessageBox.Show("Ты кто воин?!");
-            }
+
         }
         //Данные о пользователе
         public void Info()
@@ -65,6 +75,8 @@ namespace accFee
             string Name1New = textBox1.Text;
             string Name2New = textBox2.Text;
             string Name3New = textBox3.Text;
+            pass = textBox4.Text;
+            PassInHash();
             string AdminNew = null;
             if (comboBox1.SelectedItem != null)
             {
@@ -73,7 +85,35 @@ namespace accFee
             string LoginNameNew = textBox5.Text;
             string DolshnostNew = textBox6.Text;
 
-            if (Name1New == null || Name1New == "" && Name2New == null || Name2New == "" && Name3New == null || Name3New == "" && AdminNew == null || AdminNew == "" && LoginNameNew == null || LoginNameNew == "" && DolshnostNew == null || DolshnostNew == "")
+            if (checkUser(LoginNameNew))
+            {
+                MessageBox.Show("");
+                return;
+            }
+            if (true)
+            {
+                try
+                {
+                    int a = Convert.ToInt32(LoginNameNew);
+                    if (a < 0)
+                    {
+                        return;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("В табельном должны быть в цифрах");
+                    return;
+                }
+
+            }
+            if (textBox4.Text == "")
+            {
+                MessageBox.Show("Пароль не введён");
+                return;
+            }
+
+            if (Name1New == null || Name1New == "" || Name2New == null || Name2New == "" || Name3New == null || Name3New == "" || AdminNew == null || AdminNew == "" || LoginNameNew == null || LoginNameNew == "" || DolshnostNew == null || DolshnostNew == "")
             {
                 if (Name1New == null || Name1New == "")
                 {
@@ -116,9 +156,10 @@ namespace accFee
                     AdminNew = "3";
                 }
 
+
                 DB db = new DB();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
-                MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`Name1`, `Name2`, `Name3`, `Admin`, `LoginName`, `Dolshnost`) VALUES(@N1, @N2, @N3, @Admin, @LN, @Dol)", db.getConnection());
+                MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`Name1`, `Name2`, `Name3`, `Admin`, `LoginName`, `password`, `Dolshnost`) VALUES(@N1, @N2, @N3, @Admin, @LN, @pass, @Dol)", db.getConnection());
 
                 command.Parameters.Add("@N1", MySqlDbType.VarChar).Value = Name1New;
                 command.Parameters.Add("@N2", MySqlDbType.VarChar).Value = Name2New;
@@ -126,11 +167,12 @@ namespace accFee
                 command.Parameters.Add("@Admin", MySqlDbType.VarChar).Value = AdminNew;
                 command.Parameters.Add("@LN", MySqlDbType.VarChar).Value = LoginNameNew;
                 command.Parameters.Add("@DOL", MySqlDbType.VarChar).Value = DolshnostNew;
+                command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = pass;
                 adapter.SelectCommand = command;
 
 
-                //возможно нужная штука
-                //adapter.Fill(table); 
+                //возможно нужная штука(нет)
+                //adapter.Fill(table); НЕ ТРАГАЙ ПО БРАТСКИ
 
 
                 db.openConnection();
@@ -140,6 +182,7 @@ namespace accFee
                     textBox1.Text = null;
                     textBox2.Text = null;
                     textBox3.Text = null;
+                    textBox4.Text = null;
                     textBox5.Text = null;
                     textBox6.Text = null;
 
@@ -152,6 +195,42 @@ namespace accFee
 
                 db.closeConnection();
             }
+        }
+
+        //Проверка на то есть ли уже табельный
+        public Boolean checkUser(string Num)
+        {
+            DB dB = new DB();
+            DataTable table = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+            MySqlCommand command = new MySqlCommand("SELECT * FROM `users` WHERE `LoginName` = @Num", dB.getConnection());
+            command.Parameters.Add("@Num", MySqlDbType.VarChar).Value = Num;
+
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+            if (table.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //Хэш пароля
+        public void PassInHash()
+        {
+            MD5 MD5Hash = MD5.Create(); //создаем объект для работы с MD5
+
+            byte[] inputBytes = Encoding.ASCII.GetBytes(pass); //преобразуем строку в массив байтов
+
+            byte[] hash = MD5Hash.ComputeHash(inputBytes); //получаем хэш в виде массива байтов
+
+            pass = Convert.ToBase64String(hash); //пароль MD5
+           
         }
     }
 }

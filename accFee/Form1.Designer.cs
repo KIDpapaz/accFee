@@ -29,6 +29,7 @@ namespace accFee
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -45,6 +46,10 @@ namespace accFee
             this.label4 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -192,11 +197,40 @@ namespace accFee
             this.label5.TabIndex = 17;
             this.label5.Text = "label5";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(522, 169);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 60);
+            this.button7.TabIndex = 18;
+            this.button7.Text = "button7";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 5000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 5000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(25, 76);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(147, 20);
+            this.textBox5.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 406);
+            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label4);
@@ -239,6 +273,10 @@ namespace accFee
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.TextBox textBox5;
     }
 }
 

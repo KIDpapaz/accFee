@@ -9,10 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
+using MaterialSkin;
+using MaterialSkin.Controls;
+using MetroFramework.Controls;
+using MetroFramework.Forms;
 
 namespace accFee
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MetroForm
     {
         public static string Login;
         public static string Admin;
@@ -22,75 +26,106 @@ namespace accFee
 
         private addSlot addSlot;
         private remOtd remOtd;
-        //Добавление примичания в ремонте
-        //Пароль хешировать в md5 либо sha256 +++
-        //Если есть плата очищать, и наоборот +++
-        //логин пустое+++
-        //пароль пустое
+        // логин пароль визибл +++(Сделал нормальную фомру ввода)
+        // изменнение пароля (первый вход)
+        // вкладки(поломал проект 4 раз)
+        // дабовление плат и исключением
+        // печать статистики птал(отчет за день)
 
         public Form1()
         {
             InitializeComponent();
             NameInProgLogin();
+           /* var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);*/
         }
 
         //Первоначальные надписи
         public void NameInProgLogin()
         {
-            label1.Text = "Логин";
-            button2.Text = "Войти";
-            button3.Text = "Выйти";
-            button4.Text = "Печать статистики";
-            button5.Text = "Добавить сотрудника";
-            checkBox1.Text = "Ремонт";
+            
+            materialLabel2.Text = "Логин";
+            materialLabel6.Text = "Пароль";
+            metroButton2.Text = "Войти";
+            metroButton3.Text = "Выйти";
+            metroButton4.Text = "Печать статистики";
+            metroButton5.Text = "Добавить сотрудника";
+            materialCheckBox1.Text = "Ремонт";
 
-            label2.Text = null;
+            materialLabel1.Text = null;
 
-            label3.Text = "Добавление одной платны";
-            label4.Text = "Добаление нескольких плат";
+            materialLabel3.Text = "Добавить плату";
+            materialLabel4.Text = "Добавить несколько плат";
 
-            label5.Text = null;
+            metroLabel1.Text = null;
+            materialLabel5.Text = null;
 
-            button1.Text = "Добавить";
-            button6.Text = "Добавить несколько";
-            button7.Text = "Отдел плат для ремонта";
+            metroButton1.Text = "Добавить";
+            metroButton7.Text = "Добавить";
+            metroButton6.Text = "Ремонт";
+            
+            metroTextBox1.MaxLength = 6;
+            metroTextBox2.MaxLength = 6;
+            metroTextBox3.MaxLength = 6;
+            metroTextBox4.MaxLength = 6;
 
-            textBox1.MaxLength = 6;
-            textBox2.MaxLength = 6;
-            textBox3.MaxLength = 6;
-            textBox4.MaxLength = 6;
+            metroTextBox2.Enabled = false;
+            metroTextBox3.Enabled = false;
+            metroTextBox4.Enabled = false;
 
-            textBox2.Enabled = false;
-            textBox3.Enabled = false;
-            textBox4.Enabled = false;
+            metroButton1.Enabled = false;
+            metroButton3.Enabled = false;
+            metroButton4.Enabled = false;
+            metroButton5.Enabled = false;
+            metroButton5.Enabled = false;
+            metroButton7.Enabled = false;
+            metroButton6.Enabled = false;
 
-            button1.Enabled = false;
-            button3.Enabled = false;
-            button4.Enabled = false;
-            button5.Enabled = false;
-            button5.Enabled = false;
-            button6.Enabled = false;
-            button7.Enabled = false;
+            materialCheckBox1.Enabled = false;
+            
+            //
+            //v2
+            //
 
-            checkBox1.Enabled = false; 
+            //Кнопка выход
+            metroButton3.Visible = false;
+
+            //Меню
+            metroButton4.Visible = false;
+            metroButton5.Visible = false; 
+            metroButton6.Visible = false; 
+
+            //Добавление 1 платы
+            materialLabel3.Visible = false;
+            metroTextBox2.Visible = false;
+            metroButton1.Visible = false;
+            materialCheckBox1.Visible = false;
+
+            //Добавление нескольких плат
+            materialLabel4.Visible = false;
+            metroTextBox3.Visible = false;
+            metroTextBox4.Visible = false;
+            metroButton7.Visible = false;
         }
 
         //Вход
-        private void button2_Click(object sender, EventArgs e)
+        private void metroButton2_Click(object sender, EventArgs e)
         {
             try
             {
-                if (textBox1.Text == "" && textBox5.Text == "")
+                if (metroTextBox1.Text == "" && metroTextBox5.Text == "")
                 {
                     MessageBox.Show("Поля логина и пароля пусты");
                     return;
                 }
-                else if (textBox1.Text == "")
+                else if (metroTextBox1.Text == "")
                 {
                     MessageBox.Show("Поле логина пустое");
                     return;
                 }
-                else if (textBox5.Text == "")
+                else if (metroTextBox5.Text == "")
                 {
                     MessageBox.Show("Поле пароля пустое");
                     return;
@@ -102,14 +137,14 @@ namespace accFee
                     ///
                 }
 
-                Login = textBox1.Text;
+                Login = metroTextBox1.Text;
 
                 MD5 MD5Hash = MD5.Create(); //создаем объект для работы с MD5
-                byte[] inputBytes = Encoding.ASCII.GetBytes(textBox5.Text); //преобразуем строку в массив байтов
+                byte[] inputBytes = Encoding.ASCII.GetBytes(metroTextBox5.Text); //преобразуем строку в массив байтов
                 byte[] hash = MD5Hash.ComputeHash(inputBytes); //получаем хэш в виде массива байтов
                 pass = Convert.ToBase64String(hash);
 
-                int login = Convert.ToInt32(textBox1.Text);
+                int login = Convert.ToInt32(metroTextBox1.Text);
                 if (login > 0)
                 {
                     DB db = new DB();
@@ -159,21 +194,48 @@ namespace accFee
                         Admin = Convert.ToString(commandAdmin.ExecuteScalar());
                             db.closeConnection();
 
-                        button2.Enabled = false;
-                        button1.Enabled = true;
-                        textBox1.Enabled = false;
-                        button3.Enabled = true;
-                        textBox2.Enabled = true;
-                        textBox3.Enabled = true;
-                        textBox4.Enabled = true;
-                        button6.Enabled = true;
-                        checkBox1.Enabled = true;
-                        button7.Enabled = true;
-                        textBox5.Text = null;
-                        textBox5.Enabled = false;
-                        textBox1.Text = null;
+                        metroButton2.Enabled = false;
+                        metroButton1.Enabled = true;
+                        metroTextBox1.Enabled = false;
+                        metroButton3.Enabled = true;
+                        metroTextBox2.Enabled = true;
+                        metroTextBox3.Enabled = true;
+                        metroTextBox4.Enabled = true;
+                        metroButton7.Enabled = true;
+                        materialCheckBox1.Enabled = true;
+                        metroButton6.Enabled = true;
+                        metroButton6.Visible = true;
+                        metroTextBox5.Text = null;
+                        metroTextBox5.Enabled = false;
+                        metroTextBox1.Text = null;
 
-                        label2.Text = "Пользователь" + " " + Name2;
+                        //
+                        //v2
+                        //
+
+                        //Вход
+                        materialLabel2.Visible = false;
+                        materialLabel6.Visible = false;
+                        metroButton2.Visible = false;
+                        metroTextBox1.Visible = false;
+                        metroTextBox5.Visible = false;
+
+                        //Добавление 1 платы
+                        materialLabel3.Visible = true;
+                        metroTextBox2.Visible = true;
+                        metroButton1.Visible = true;
+                        materialCheckBox1.Visible = true;
+
+                        //Добавление нескольких плат
+                        materialLabel4.Visible = true;
+                        metroTextBox3.Visible = true;
+                        metroTextBox4.Visible = true;
+                        metroButton7.Visible = true;
+
+                        //Кнопка выхода
+                        metroButton3.Visible = true;
+
+                        materialLabel1.Text = "Пользователь" + " " + Name2;
 
                         ///
                         /// Доступ в админку
@@ -181,18 +243,22 @@ namespace accFee
                         int a = Convert.ToInt32(Admin);
                         if (a == 1)//Можно добавлять замов и пользователей и админов
                         {
-                            button4.Enabled = true;
-                            button5.Enabled = true;
+                            metroButton4.Enabled = true;
+                            metroButton5.Enabled = true;
+                            metroButton4.Visible = true;
+                            metroButton5.Visible = true;
                         }
                         else if (a == 2)//можно добавлять пользователей
                         {
-                            button4.Enabled = true;
-                            button5.Enabled = true;
+                            metroButton4.Enabled = true;
+                            metroButton5.Enabled = true;
+                            metroButton4.Visible = true;
+                            metroButton5.Visible = true;
                         }
                         else if (a == 3)//работяга
                         {
-                            button4.Enabled = false;
-                            button5.Enabled = false;
+                            metroButton4.Enabled = false;
+                            metroButton5.Enabled = false;
                         }
                         addLog();
                     }
@@ -201,7 +267,7 @@ namespace accFee
                         MessageBox.Show("Неправильный логин");
                     }
                 }
-                else if (textBox1.TextLength < 6)
+                else
                 {
                     MessageBox.Show("Меньше 6");
                 }
@@ -219,42 +285,71 @@ namespace accFee
         //Выход
         private void button3_Click(object sender, EventArgs e)
         {
-            label2.Text = null;
+            materialLabel1.Text = null;
+
             Admin = null;
             Name1 = null;
             Name2 = null;
             Login = null;
 
-            textBox1.Text = null;
-            textBox1.Enabled = true;
-            button2.Enabled = true;
-            button3.Enabled = false;
+            metroTextBox1.Text = null;
+            metroTextBox1.Enabled = true;
+            metroButton2.Enabled = true;
+            metroButton3.Enabled = false;
 
-            button4.Enabled = false;
-            button5.Enabled = false;
-            button1.Enabled = false;
-            button7.Enabled = false;
 
-            textBox2.Enabled = false;
-            textBox3.Enabled = false;
-            textBox4.Enabled = false;
-            button6.Enabled = false;
+            metroButton4.Enabled = false;
+            metroButton5.Enabled = false;
+            metroButton1.Enabled = false;
+            metroButton6.Enabled = false;
 
-            textBox2.Text = null;
-            textBox3.Text = null;
-            textBox4.Text = null;
-            textBox5.Enabled = true;
-            checkBox1.Enabled = false;
+            metroTextBox2.Enabled = false;
+            metroTextBox3.Enabled = false;
+            metroTextBox4.Enabled = false;
+            metroButton7.Enabled = false;
+
+            metroTextBox2.Text = null;
+            metroTextBox3.Text = null;
+            metroTextBox4.Text = null;
+            metroTextBox5.Enabled = true;
+            materialCheckBox1.Enabled = false;
 
             if (addSlot != null)
             {
                 addSlot.Close();
             }
 
-            if (label5.Text != null)
+            if (materialLabel5.Text != null)
             {
-                label5.Text = null;
+                materialLabel5.Text = null;
             }
+            
+            //Кнопка выход
+            metroButton3.Visible = false;
+
+            //Меню
+            metroButton4.Visible = false;
+            metroButton5.Visible = false; 
+            metroButton6.Visible = false; 
+
+            //Добавление 1 платы
+            materialLabel3.Visible = false;
+            metroTextBox2.Visible = false;
+            metroButton1.Visible = false;
+            materialCheckBox1.Visible = false;
+
+            //Добавление нескольких плат
+            materialLabel4.Visible = false;
+            metroTextBox3.Visible = false;
+            metroTextBox4.Visible = false;
+            metroButton7.Visible = false;
+
+            //Вход
+            materialLabel2.Visible = true;
+            metroTextBox1.Visible = true;
+            materialLabel6.Visible = true;
+            metroTextBox5.Visible = true;
+            metroButton2.Visible = true;
         }
 
         //добавление сотрудника (новая форма)
@@ -265,18 +360,18 @@ namespace accFee
         }
 
         //добавление платы
-        private void button1_Click(object sender, EventArgs e)
+        private void metroButton1_Click(object sender, EventArgs e)
         {
             try
             {
-                int plata = Convert.ToInt32(textBox2.Text);
+                int plata = Convert.ToInt32(metroTextBox2.Text);
                 string rem = null;
-                if (textBox2.Text.Length != 6)
+                if (metroTextBox2.Text.Length != 6)
                 {
                     MessageBox.Show("Длинна платы меньше 6");
                     return;
                 }
-                if (checkBox1.Checked == true)
+                if (materialCheckBox1.Checked == true)
                 {
                     rem = "На ремонте";
                 }
@@ -289,13 +384,15 @@ namespace accFee
                 {
                     if (checkPlat(plata))
                     {
-                        button1.BackColor = Color.Red;
+                        metroButton1.BackColor = Color.Red;
+                        timer1.Start();
+                        timer2.Start();
                         return;
                     }
                     ///
                     /// Создание даты
                     ///
-                    DateTime dt = DateTime.Now;         
+                    DateTime dt = DateTime.Now;
                     ///
                     /// Работы с БД
                     ///
@@ -304,7 +401,7 @@ namespace accFee
 
                     command.Parameters.Add("@LoginName", MySqlDbType.VarChar).Value = Login;
                     command.Parameters.Add("@Name1", MySqlDbType.VarChar).Value = Name2;
-                    command.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = textBox2.Text;
+                    command.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = metroTextBox2.Text;
                     command.Parameters.Add("@remont", MySqlDbType.VarChar).Value = rem;
                     command.Parameters.Add("@Date", MySqlDbType.VarChar).Value = dt.ToShortDateString();
 
@@ -314,9 +411,9 @@ namespace accFee
                     if (command.ExecuteNonQuery() == 1)
                     {
                         //Успешно добавленно 
-                        label5.Text = "Плата " + textBox2.Text + " была УСПЕШНО добавлена.";
-                        textBox2.Text = null;
-                        button1.BackColor = Color.Green;
+                        materialLabel5.Text = "Успешно.";
+                        metroTextBox2.Text = null;
+                        metroButton1.BackColor = Color.Green;
                         timer1.Start();
                         timer2.Start();
                     }
@@ -347,7 +444,7 @@ namespace accFee
             MySqlDataAdapter adapter = new MySqlDataAdapter();
 
             MySqlCommand command = new MySqlCommand("SELECT * FROM `plats` WHERE `NomerPlat` = @numPlat", dB.getConnection());
-            command.Parameters.Add("@numPlat", MySqlDbType.VarChar).Value = textBox2.Text;
+            command.Parameters.Add("@numPlat", MySqlDbType.VarChar).Value = metroTextBox2.Text;
 
             adapter.SelectCommand = command;
             adapter.Fill(table);
@@ -355,7 +452,7 @@ namespace accFee
             if (table.Rows.Count > 0)
             {
                 int plat = Convert.ToInt32(plata);
-                label5.Text = "Плата" + " " + plat + " уже есть";
+                materialLabel5.Text = "Плата уже есть";
                 return true;
             }
             else
@@ -368,14 +465,15 @@ namespace accFee
         private void timer1_Tick(object sender, EventArgs e)
         {
             //ВЫПОЛНЯЕТСЯ В ИНТЕРВАЛЕ 5сек
-            button1.BackColor = Color.White;
+            metroButton1.BackColor = Color.White;
             timer1.Stop();
         }
 
         //Таймер label
         private void timer2_Tick(object sender, EventArgs e)
         {
-            label5.Text = null;
+            materialLabel5.Text = null;
+            metroLabel1.Text = null;
             timer2.Stop();
         }
 
@@ -386,12 +484,7 @@ namespace accFee
             remOtd.ShowDialog();
         }
 
-        ///
-        /// Добавить добавление плат с n по n+7
-        ///
-
-
-        /// Добавить для добавлнения времени в бд кто и когда вошел
+        //Добавить для добавлнения времени в бд кто и когда вошел
         public void addLog()
         {
             try
@@ -422,6 +515,468 @@ namespace accFee
             {
 
                 
+            }
+        }
+
+        //Добавление нескольких плат
+        private void metroButton7_Click(object sender, EventArgs e)
+        {
+            //Число от пользователя
+            Console.Write("Введите первую плату: ");//000001
+            string num1 = metroTextBox3.Text;
+            Console.Write("Введите вторую плату: ");//000005
+            string num2 = metroTextBox4.Text;
+
+
+
+
+            int inum1 = Convert.ToInt32(num1);//1
+            int inum2 = Convert.ToInt32(num2);//5
+
+            //**********************************
+            // Больше ли второе число чем первое
+            //**********************************
+            if (inum1 < inum2)
+            {
+
+                int colplat = (inum2 - inum1) + 1;//Количество плат
+                Console.Write("Кол-во плат: ");
+                Console.WriteLine(colplat);// вывод плат
+                DB db = new DB();
+                if (colplat <= 8)//проверка на меньше 8 плат
+                {
+                    //тут перевод с 000001(int) в 1(string)
+                    string strnum1 = Convert.ToString(inum1);
+
+                    string ife = strnum1;
+                    int b = inum1 - 1;
+                    for (int i = 1; i < colplat + 1;)
+                    {
+                        string a;
+                        string final;
+                        if (ife.Length == 1)
+                        {
+                            string s5 = "00000";
+                            a = Convert.ToString(b + i);
+                            Console.Write("Числа с 1 по 5: ");
+                            final = s5 + a;
+                            DateTime dt = DateTime.Now;
+                            if (checkPlat(final))
+                            {
+                                metroLabel1.Text = metroLabel1.Text + "-";
+                                timer2.Start();
+                            }
+                            else
+                            {
+                                MySqlCommand command1 = new MySqlCommand("INSERT INTO `plats`(`LoginName`, `Name1`, `NomerPlat`, `remont`, `Date`) VALUES (@LoginName, @Name1, @NomerPlat, @remont, @Date);", db.getConnection());
+                                command1.Parameters.Add("@LoginName", MySqlDbType.VarChar).Value = Login;
+                                command1.Parameters.Add("@Name1", MySqlDbType.VarChar).Value = Name2;
+                                command1.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = final;
+                                command1.Parameters.Add("@remont", MySqlDbType.VarChar).Value = "Нет";
+                                command1.Parameters.Add("@Date", MySqlDbType.VarChar).Value = dt.ToShortDateString();
+
+                                db.openConnection();
+                                if (command1.ExecuteNonQuery() == 1)
+                                {
+                                    //Успешно добавленно 
+                                    Console.WriteLine("Нормик");
+                                    metroLabel1.Text = metroLabel1.Text + "+";
+                                    timer2.Start();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Неа");
+                                    //Не добавленно
+                                }
+                                db.closeConnection();
+                                Console.WriteLine(final);
+                                
+                            }
+                            ++i;
+                        }
+                        else if (ife.Length == 2)
+                        {
+                            string s4 = "0000";
+                            a = Convert.ToString(b + i);
+                            Console.Write("Числа с 1 по 5: ");
+                            final = s4 + a;
+                            if (final.Length == 7)
+                            {
+                                final = final.Substring(1);
+                            }
+                            else if (final.Length == 8)
+                            {
+                                final = final.Substring(2);
+                            }
+                            else if (final.Length == 9)
+                            {
+                                final = final.Substring(3);
+                            }
+                            else if (final.Length == 10)
+                            {
+                                final = final.Substring(4);
+                            }
+                            else if (final.Length == 11)
+                            {
+                                final = final.Substring(5);
+                            }
+                            else if (final.Length == 12)
+                            {
+                                final = final.Substring(6);
+                            }
+                            else if (final.Length == 13)
+                            {
+                                final = final.Substring(7);
+                            }
+                            DateTime dt = DateTime.Now;
+                            if (checkPlat(final))
+                            {
+                                metroLabel1.Text = metroLabel1.Text + "-";
+                                timer2.Start();
+                            }
+                            else
+                            {
+                                MySqlCommand command1 = new MySqlCommand("INSERT INTO `plats`(`LoginName`, `Name1`, `NomerPlat`, `remont`, `Date`) VALUES (@LoginName, @Name1, @NomerPlat, @remont, @Date);", db.getConnection());
+                                command1.Parameters.Add("@LoginName", MySqlDbType.VarChar).Value = Login;
+                                command1.Parameters.Add("@Name1", MySqlDbType.VarChar).Value = Name2;
+                                command1.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = final;
+                                command1.Parameters.Add("@remont", MySqlDbType.VarChar).Value = "Нет";
+                                command1.Parameters.Add("@Date", MySqlDbType.VarChar).Value = dt.ToShortDateString();
+
+                                db.openConnection();
+                                if (command1.ExecuteNonQuery() == 1)
+                                {
+                                    //Успешно добавленно 
+                                    Console.WriteLine("Нормик");
+                                    metroLabel1.Text = metroLabel1.Text + "+";
+                                    timer2.Start();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Неа");
+                                    //Не добавленно
+                                }
+                                db.closeConnection();
+                                Console.WriteLine(final);
+                                
+                            }
+                            ++i;
+                        }
+                        else if (ife.Length == 3)
+                        {
+                            string s3 = "000";
+                            a = Convert.ToString(b + i);
+                            Console.Write("Числа с 1 по 5: ");
+                            final = s3 + a;
+                            if (final.Length == 7)
+                            {
+                                final = final.Substring(1);
+                            }
+                            else if (final.Length == 8)
+                            {
+                                final = final.Substring(2);
+                            }
+                            else if (final.Length == 9)
+                            {
+                                final = final.Substring(3);
+                            }
+                            else if (final.Length == 10)
+                            {
+                                final = final.Substring(4);
+                            }
+                            else if (final.Length == 11)
+                            {
+                                final = final.Substring(5);
+                            }
+                            else if (final.Length == 12)
+                            {
+                                final = final.Substring(6);
+                            }
+                            else if (final.Length == 13)
+                            {
+                                final = final.Substring(7);
+                            }
+                            DateTime dt = DateTime.Now;
+                            if (checkPlat(final))
+                            {
+                                metroLabel1.Text = metroLabel1.Text + "-";
+                                timer2.Start();
+                            }
+                            else
+                            {
+                                MySqlCommand command1 = new MySqlCommand("INSERT INTO `plats`(`LoginName`, `Name1`, `NomerPlat`, `remont`, `Date`) VALUES (@LoginName, @Name1, @NomerPlat, @remont, @Date);", db.getConnection());
+                                command1.Parameters.Add("@LoginName", MySqlDbType.VarChar).Value = Login;
+                                command1.Parameters.Add("@Name1", MySqlDbType.VarChar).Value = Name2;
+                                command1.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = final;
+                                command1.Parameters.Add("@remont", MySqlDbType.VarChar).Value = "Нет";
+                                command1.Parameters.Add("@Date", MySqlDbType.VarChar).Value = dt.ToShortDateString();
+
+                                db.openConnection();
+                                if (command1.ExecuteNonQuery() == 1)
+                                {
+                                    //Успешно добавленно 
+                                    Console.WriteLine("Нормик");
+                                    metroLabel1.Text = metroLabel1.Text + "+";
+                                    timer2.Start();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Неа");
+                                    //Не добавленно
+                                }
+                                db.closeConnection();
+                                Console.WriteLine(final);
+                                
+                            }
+                            ++i;
+                        }
+                        else if (ife.Length == 4)
+                        {
+                            string s2 = "00";
+                            a = Convert.ToString(b + i);
+                            Console.Write("Числа с 1 по 5: ");
+                            final = s2 + a;
+                            if (final.Length == 7)
+                            {
+                                final = final.Substring(1);
+                            }
+                            else if (final.Length == 8)
+                            {
+                                final = final.Substring(2);
+                            }
+                            else if (final.Length == 9)
+                            {
+                                final = final.Substring(3);
+                            }
+                            else if (final.Length == 10)
+                            {
+                                final = final.Substring(4);
+                            }
+                            else if (final.Length == 11)
+                            {
+                                final = final.Substring(5);
+                            }
+                            else if (final.Length == 12)
+                            {
+                                final = final.Substring(6);
+                            }
+                            else if (final.Length == 13)
+                            {
+                                final = final.Substring(7);
+                            }
+                            DateTime dt = DateTime.Now;
+                            if (checkPlat(final))
+                            {
+                                metroLabel1.Text = metroLabel1.Text + "-";
+                                timer2.Start();
+                            }
+                            else
+                            {
+                                MySqlCommand command1 = new MySqlCommand("INSERT INTO `plats`(`LoginName`, `Name1`, `NomerPlat`, `remont`, `Date`) VALUES (@LoginName, @Name1, @NomerPlat, @remont, @Date);", db.getConnection());
+                                command1.Parameters.Add("@LoginName", MySqlDbType.VarChar).Value = Login;
+                                command1.Parameters.Add("@Name1", MySqlDbType.VarChar).Value = Name2;
+                                command1.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = final;
+                                command1.Parameters.Add("@remont", MySqlDbType.VarChar).Value = "Нет";
+                                command1.Parameters.Add("@Date", MySqlDbType.VarChar).Value = dt.ToShortDateString();
+                                db.openConnection();
+
+
+                                if (command1.ExecuteNonQuery() == 1)
+                                {
+                                    //Успешно добавленно 
+                                    Console.WriteLine("Нормик");
+                                    metroLabel1.Text = metroLabel1.Text + "+";
+                                    timer2.Start();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Неа");
+                                    //Не добавленно
+                                }
+                                db.closeConnection();
+                                Console.WriteLine(final);
+                                
+                            }
+                            ++i;
+                        }
+                        else if (ife.Length == 5)
+                        {
+                            string s1 = "0";
+                            a = Convert.ToString(b + i);
+                            Console.Write("Числа с 1 по 5: ");
+                            final = s1 + a;
+                            if (final.Length == 7)
+                            {
+                                final = final.Substring(1);
+                            }
+                            else if (final.Length == 8)
+                            {
+                                final = final.Substring(2);
+                            }
+                            else if (final.Length == 9)
+                            {
+                                final = final.Substring(3);
+                            }
+                            else if (final.Length == 10)
+                            {
+                                final = final.Substring(4);
+                            }
+                            else if (final.Length == 11)
+                            {
+                                final = final.Substring(5);
+                            }
+                            else if (final.Length == 12)
+                            {
+                                final = final.Substring(6);
+                            }
+                            else if (final.Length == 13)
+                            {
+                                final = final.Substring(7);
+                            }
+                            DateTime dt = DateTime.Now;
+                            if (checkPlat(final))
+                            {
+                                metroLabel1.Text = metroLabel1.Text + "-";
+                                timer2.Start();
+                            }
+                            else
+                            {
+                                MySqlCommand command1 = new MySqlCommand("INSERT INTO `plats`(`LoginName`, `Name1`, `NomerPlat`, `remont`, `Date`) VALUES (@LoginName, @Name1, @NomerPlat, @remont, @Date);", db.getConnection());
+                                command1.Parameters.Add("@LoginName", MySqlDbType.VarChar).Value = Login;
+                                command1.Parameters.Add("@Name1", MySqlDbType.VarChar).Value = Name2;
+                                command1.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = final;
+                                command1.Parameters.Add("@remont", MySqlDbType.VarChar).Value = "Нет";
+                                command1.Parameters.Add("@Date", MySqlDbType.VarChar).Value = dt.ToShortDateString();
+                                db.openConnection();
+
+
+                                if (command1.ExecuteNonQuery() == 1)
+                                {
+                                    //Успешно добавленно 
+                                    Console.WriteLine("Нормик");
+                                    metroLabel1.Text = metroLabel1.Text + "+";
+                                    timer2.Start();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Неа");
+                                    //Не добавленно
+                                }
+                                db.closeConnection();
+                                Console.WriteLine(final);
+                                
+                            }
+                            ++i;
+                        }
+                        else if (ife.Length == 6)
+                        {
+                            a = Convert.ToString(b + i);
+                            Console.Write("Числа с 1 по 5: ");
+                            final = a;
+                            if (final.Length == 7)
+                            {
+                                final = final.Substring(1);
+                            }
+                            else if (final.Length == 8)
+                            {
+                                final = final.Substring(2);
+                            }
+                            else if (final.Length == 9)
+                            {
+                                final = final.Substring(3);
+                            }
+                            else if (final.Length == 10)
+                            {
+                                final = final.Substring(4);
+                            }
+                            else if (final.Length == 11)
+                            {
+                                final = final.Substring(5);
+                            }
+                            else if (final.Length == 12)
+                            {
+                                final = final.Substring(6);
+                            }
+                            else if (final.Length == 13)
+                            {
+                                final = final.Substring(7);
+                            }
+
+                            DateTime dt = DateTime.Now;
+                            if (checkPlat(final))
+                            {
+                                metroLabel1.Text = metroLabel1.Text + "-";
+                                timer2.Start();
+                            }
+                            else
+                            {
+                                MySqlCommand command1 = new MySqlCommand("INSERT INTO `plats`(`LoginName`, `Name1`, `NomerPlat`, `remont`, `Date`) VALUES (@LoginName, @Name1, @NomerPlat, @remont, @Date);", db.getConnection());
+                                command1.Parameters.Add("@LoginName", MySqlDbType.VarChar).Value = Login;
+                                command1.Parameters.Add("@Name1", MySqlDbType.VarChar).Value = Name2;
+                                command1.Parameters.Add("@NomerPlat", MySqlDbType.VarChar).Value = final;
+                                command1.Parameters.Add("@remont", MySqlDbType.VarChar).Value = "Нет";
+                                command1.Parameters.Add("@Date", MySqlDbType.VarChar).Value = dt.ToShortDateString();
+                                db.openConnection();
+
+
+                                if (command1.ExecuteNonQuery() == 1)
+                                {
+                                    //Успешно добавленно 
+                                    Console.WriteLine("Нормик");
+                                    metroLabel1.Text = metroLabel1.Text + "+";
+                                    timer2.Start();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Неа");
+                                    //Не добавленно
+                                }
+                                db.closeConnection();
+                                Console.WriteLine(final);
+                                
+                            }
+                            ++i;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Число больше 6 чисел");
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Нельзя внести полее 8 плат, Я думаю вы ошиблись");
+                }
+                metroTextBox3.Text = null;
+                metroTextBox4.Text = null;
+            }
+            else
+            {
+                Console.WriteLine("Первое больше второго");
+            }
+        }
+
+        //Чекает плату
+        public Boolean checkPlat(string Num)
+        {
+            DB dB = new DB();
+            DataTable table = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+            MySqlCommand command = new MySqlCommand("SELECT * FROM `plats` WHERE `NomerPlat` = @qq", dB.getConnection());
+            command.Parameters.Add("@qq", MySqlDbType.VarChar).Value = Num;
+
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+            if (table.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

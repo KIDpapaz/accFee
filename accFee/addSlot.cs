@@ -9,10 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using MetroFramework.Controls;
+using MetroFramework.Forms;
 
 namespace accFee
 {
-    public partial class addSlot : Form
+    public partial class addSlot : MetroForm
     {
         public string Admin;
         public string Name1;
@@ -41,7 +43,7 @@ namespace accFee
 
             textBox5.MaxLength = 6;
 
-
+            comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             /// Выесняется какой пользователь для добавления на combobox1
             {
                 if (Convert.ToInt32(Admin) == 1)

@@ -51,7 +51,7 @@ namespace accFee
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 23);
+            this.label1.Location = new System.Drawing.Point(28, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 0;
@@ -61,7 +61,7 @@ namespace accFee
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 102);
+            this.label2.Location = new System.Drawing.Point(28, 110);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 1;
@@ -91,7 +91,7 @@ namespace accFee
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(25, 303);
+            this.label5.Location = new System.Drawing.Point(289, 63);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 4;
@@ -101,7 +101,7 @@ namespace accFee
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(28, 372);
+            this.label6.Location = new System.Drawing.Point(292, 132);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 13);
             this.label6.TabIndex = 5;
@@ -110,7 +110,7 @@ namespace accFee
             // textBox1
             // 
             this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBox1.Location = new System.Drawing.Point(28, 42);
+            this.textBox1.Location = new System.Drawing.Point(31, 79);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(154, 20);
             this.textBox1.TabIndex = 6;
@@ -118,7 +118,7 @@ namespace accFee
             // textBox2
             // 
             this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBox2.Location = new System.Drawing.Point(28, 118);
+            this.textBox2.Location = new System.Drawing.Point(31, 126);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(154, 20);
             this.textBox2.TabIndex = 7;
@@ -134,7 +134,7 @@ namespace accFee
             // textBox5
             // 
             this.textBox5.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBox5.Location = new System.Drawing.Point(28, 319);
+            this.textBox5.Location = new System.Drawing.Point(292, 79);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(154, 20);
             this.textBox5.TabIndex = 10;
@@ -142,7 +142,7 @@ namespace accFee
             // textBox6
             // 
             this.textBox6.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBox6.Location = new System.Drawing.Point(28, 388);
+            this.textBox6.Location = new System.Drawing.Point(292, 148);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(154, 20);
             this.textBox6.TabIndex = 11;
@@ -177,7 +177,7 @@ namespace accFee
             // textBox4
             // 
             this.textBox4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBox4.Location = new System.Drawing.Point(218, 71);
+            this.textBox4.Location = new System.Drawing.Point(295, 212);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(154, 20);
             this.textBox4.TabIndex = 15;
@@ -185,7 +185,7 @@ namespace accFee
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(218, 48);
+            this.label8.Location = new System.Drawing.Point(295, 189);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(35, 13);
             this.label8.TabIndex = 16;
@@ -213,7 +213,7 @@ namespace accFee
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "addSlot";
-            this.Text = "addSlot";
+            this.Text = "Добавление пользователя";
             this.ResumeLayout(false);
             this.PerformLayout();
 
